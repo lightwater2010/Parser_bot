@@ -1,5 +1,5 @@
 echo "Устанавливаем Chrome:"
-playwright install chromim
+playwright install chromium
 echo "Запускаем бота:"
 python bot.py
 
