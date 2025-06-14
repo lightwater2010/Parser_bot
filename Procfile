@@ -1,2 +1,2 @@
-worker: python bot.py
+worker: ./start.sh
 web: python -m http.server $PORT
