@@ -1,6 +1,6 @@
 FROM scalingo/python:latest
 
-# Установка зависимостей
+# Установка системных зависимостей
 RUN apt-get update && apt-get install -y \
     libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 \
     libxkbcommon0 libxcomposite1 libxdamage1 libxrandr2 \
@@ -10,8 +10,8 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 COPY . .
 
+# Установка Python-зависимостей
 RUN pip install --no-cache-dir -r requirements.txt
-RUN playwright install chromium
 
-# Фикс для Scalingo - "фейковый" HTTP-сервер + ваш worker
-CMD sh -c "python -m http.server 8080 & python bot.py"
+# Заглушка для Scalingo (требует web-процесс)
+CMD ["python", "-m", "http.server", "${PORT:-8080}"]
