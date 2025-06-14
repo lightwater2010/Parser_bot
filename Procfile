@@ -1,2 +1,7 @@
 web: python -m http.server $PORT
-worker: sh -c "export PLAYWRIGHT_BROWSERS_PATH=/tmp/playwright && mkdir -p $PLAYWRIGHT_BROWSERS_PATH && if ! command -v playwright >/dev/null 2>&1; then pip install playwright==1.40.0 && playwright install --with-deps chromium; fi && python bot.py"
+worker: sh -c "
+  mkdir -p ~/.cache/ms-playwright/chromium-1169 &&
+  wget https://storage.googleapis.com/chromium-browser-snapshots/Linux_x64/1169/chrome-linux.zip &&
+  unzip chrome-linux.zip -d ~/.cache/ms-playwright/chromium-1169/ &&
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 pip install playwright &&
+  python bot.py"
