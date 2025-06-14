@@ -1,5 +1,4 @@
 import asyncio
-from turtle import isvisible
 from aiogram import Bot
 from playwright.async_api import async_playwright
 
