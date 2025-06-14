@@ -5,6 +5,7 @@ from config import TOKEN
 from handlers import router
 from aiogram.fsm.storage.memory import MemoryStorage
 import logging
+import time
 
 
 logging.basicConfig(level=logging.INFO)
@@ -30,6 +31,8 @@ async def main():
 
 if __name__ == "__main__":
     # request_data_queue = asyncio.Queue()
+    print("✅ Worker started successfully!")
+    time.sleep(1)  # Даём время для инициализации
     asyncio.run(main())
     
 
