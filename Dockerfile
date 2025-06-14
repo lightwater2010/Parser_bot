@@ -20,7 +20,7 @@ COPY . .
 # ----------------------------
 # Этап для web-процесса
 FROM base as web
-CMD ["python", "-m", "http.server", "$PORT"]  # Или ваш web-сервер
+CMD ["python", "-m", "http.server", "8080"]  # Или ваш web-сервер
 
 # ----------------------------
 # Этап для worker-процесса
