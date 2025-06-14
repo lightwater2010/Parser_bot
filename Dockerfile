@@ -1,42 +1,28 @@
-# Используем официальный образ Scalingo для Python
-FROM scalingo/python:latest
+FROM scalingo/python:latest as base
 
-# Устанавливаем системные зависимости для Playwright
+# Установка системных зависимостей для Playwright
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    # Основные зависимости для Chromium
-    libnss3 \
-    libnspr4 \
-    libatk1.0-0 \
-    libatk-bridge2.0-0 \
-    libxkbcommon0 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxrandr2 \
-    libgbm1 \
-    libasound2 \
-    libatspi2.0-0 \
-    libdrm2 \
-    # Дополнительные зависимости
-    libxshmfence1 \
-    libx11-xcb1 \
-    libxcb-dri3-0 \
-    libxext6 \
-    libxfixes3 \
-    libxtst6 \
-    # Очистка кеша
+    libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 \
+    libxkbcommon0 libxcomposite1 libxdamage1 libxrandr2 \
+    libgbm1 libasound2 libatspi2.0-0 libdrm2 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Устанавливаем Python-зависимости
+# Установка Python-зависимостей
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Устанавливаем браузеры Playwright
 RUN playwright install chromium
 
-# Копируем исходный код
+# Копирование кода
 COPY . .
 
-# Команда запуска (измените под свой проект)
-CMD ["python", "bot.py"]
+# ----------------------------
+# Этап для web-процесса
+FROM base as web
+CMD ["python", "-m", "http.server", "$PORT"]  # Или ваш web-сервер
+
+# ----------------------------
+# Этап для worker-процесса
+FROM base as worker
+CMD ["python", "bot.py"]  # Ваш фоновый процесс
