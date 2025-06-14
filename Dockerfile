@@ -19,8 +19,8 @@ COPY . .
 
 # ----------------------------
 # Этап для web-процесса
-FROM base as web
-CMD ["python", "-m", "http.server", "8080"]  # Или ваш web-сервер
+# FROM base as web
+# CMD ["python", "-m", "http.server", "8080"]  # Или ваш web-сервер
 
 # ----------------------------
 # Этап для worker-процесса
