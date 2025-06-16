@@ -143,8 +143,3 @@ async def skip_handler(callback: CallbackQuery, state: FSMContext, categories: l
             reply_markup=ReplyKeyboardRemove()
         )
         await state.set_state(ProjectWithProperties.amount)
-
-
-@router.message(F.text)
-async def not_command(message: Message):
-    await message.reply("Упс, такой команды нет\nПопробуйте /start - для запуска бота заново\n/search - для поиска заказа")
