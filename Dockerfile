@@ -1,4 +1,4 @@
-FROM playwright/python:v1.43.1
+FROM https://mcr.microsoft.com/en-us/product/playwright/python
 
 # Устанавливаем рабочую директорию
 WORKDIR /app
