@@ -26,7 +26,7 @@ async def get_projects(message: Message, state: FSMContext):
     await state.set_state(ProjectWithProperties.name)
 
 
-@router.message(F.text, ProjectWithProperties.name)
+@router.message(ProjectWithProperties.name)
 async def get_name_project(message: Message, state: FSMContext):
     await state.update_data(name=message.text)
 
@@ -36,7 +36,7 @@ async def get_name_project(message: Message, state: FSMContext):
     await state.set_state(ProjectWithProperties.price)
 
 
-@router.message(F.text, ProjectWithProperties.price)
+@router.message(ProjectWithProperties.price)
 async def get_price_project(message: Message, state: FSMContext, categories: list[str]):
     
     if await validate_price(message.text):
@@ -51,7 +51,7 @@ async def get_price_project(message: Message, state: FSMContext, categories: lis
 
 
 
-@router.message(F.text, ProjectWithProperties.category)
+@router.message(ProjectWithProperties.category)
 async def get_category_project(message: Message, state: FSMContext, categories: list[str]):
 
     if await validate_field(message.text.strip(), categories):
@@ -65,7 +65,7 @@ async def get_category_project(message: Message, state: FSMContext, categories: 
         await state.set_state(ProjectWithProperties.category)
 
 
-@router.message(F.text, ProjectWithProperties.date)
+@router.message(ProjectWithProperties.date)
 async def get_date_project(message: Message, state: FSMContext, dates: list[str]):
     if await validate_field(message.text.strip(), dates):
         await state.update_data(date=message.text)
@@ -75,7 +75,7 @@ async def get_date_project(message: Message, state: FSMContext, dates: list[str]
         await message.reply("🤔 Хм, такой опции для даты нет. Пожалуйста, выберите из предложенных вариантов:", reply_markup=skip_kb_builder_date)
         await state.set_state(ProjectWithProperties.date)
 
-@router.message(F.text, ProjectWithProperties.amount)
+@router.message(ProjectWithProperties.amount)
 async def get_amount_projects(message: Message, state: FSMContext):
     if message.text.isdigit():
         await state.update_data(amount=int(message.text))
@@ -143,3 +143,5 @@ async def skip_handler(callback: CallbackQuery, state: FSMContext, categories: l
             reply_markup=ReplyKeyboardRemove()
         )
         await state.set_state(ProjectWithProperties.amount)
+
+
